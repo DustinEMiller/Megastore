@@ -24,6 +24,16 @@ namespace Megastore
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css/admin").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/bower_components/font-awesome/css/font-awesome.css",
+                      "~/Content/bower_components/Ionicons/css/ionicons.css",
+                      "~/Content/dist/css/AdminLTE.css",
+                      "~/Content/dist/css/skins/skin-blue.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+                      "~/Content/dist/js/adminlte.js"));
         }
     }
 }

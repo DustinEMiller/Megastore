@@ -20,9 +20,17 @@ namespace Megastore.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Site> Sites { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
 
         public static ApplicationDbContext Create()

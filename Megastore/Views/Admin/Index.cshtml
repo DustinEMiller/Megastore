@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Admin Dashboard</h2>
+<div><button class='btn-link js-run-job'>Run Job</button></div>
+
+@section scripts
+{
+    <script>
+        $("body").on("click", ".js-run-job",
+            function () {
+                $.ajax({
+                    url: "/api/products/",
+                    method: "GET"
+                })
+                .done(function (data) {
+                    alert("Completed");
+                    console.log(data);
+                })
+                .fail(function () {
+                    alert("Something unexpected happened");
+                });
+            })
+    </script>
+}
