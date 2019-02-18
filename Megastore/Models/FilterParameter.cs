@@ -6,7 +6,7 @@ using System.Web;
 namespace Megastore.Models
 {
 
-    public class ProductParameters
+    public class FilterParameters
     {
         public Filter filter { get; set; }
         public int size { get; set; }

@@ -4,8 +4,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Admin Dashboard</h2>
-<div><button class='btn-link js-run-job'>Run Job</button></div>
+<div><button class='btn-link js-run-job'>Run Seed Job</button></div>
 
 @section scripts
 {
@@ -13,8 +12,12 @@
         $("body").on("click", ".js-run-job",
             function () {
                 $.ajax({
-                    url: "/api/products/",
-                    method: "GET"
+                    url: "/api/apiFetch/",
+                    method: "POST",
+                    data: {
+                        queryType: "filters",
+                        filters: true
+                    }
                 })
                 .done(function (data) {
                     alert("Completed");

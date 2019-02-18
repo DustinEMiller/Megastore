@@ -194,7 +194,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\API\ProductsControllers.cs" />
+    <Compile Include="Controllers\API\ApiFetchControllers.cs" />
+    <Compile Include="Controllers\API\ProductFetchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -246,7 +247,7 @@
     <Compile Include="Models\Size.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ProductParameter.cs" />
+    <Compile Include="Models\FilterParameter.cs" />
     <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,6 +354,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ProductFetch\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
