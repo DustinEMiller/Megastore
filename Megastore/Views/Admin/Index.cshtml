@@ -13,11 +13,7 @@
             function () {
                 $.ajax({
                     url: "/api/apiFetch/",
-                    method: "POST",
-                    data: {
-                        queryType: "filters",
-                        filters: true
-                    }
+                    method: "GET"
                 })
                 .done(function (data) {
                     alert("Completed");

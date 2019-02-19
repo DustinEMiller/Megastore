@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Http;
 using System.Net.Http;
+using Megastore.Controllers;
 
 namespace Megastore.Controllers
 {
@@ -12,12 +13,9 @@ namespace Megastore.Controllers
     {
         public async System.Threading.Tasks.Task<ActionResult> Index() {
             using (HttpClient httpClient = new HttpClient()) {
-                var productApi = new ApiFetchController();
-                var data = new {
-                    queryType = "search",
-                    filters = false
-                };
-                var products = await productApi.Post(data);
+                var productApi = new ProductFetchController();
+
+                var products = await productApi.Get();
                 ViewBag.Message = "Your application description page.";
                 // This is just a string of the json result.
                 return View(products.ToList());

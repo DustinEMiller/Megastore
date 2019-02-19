@@ -13,7 +13,7 @@ using Megastore.Helpers;
 using TwoTap.Models;
 using System.Diagnostics;
 
-namespace Megastore.Controllers.API
+namespace Megastore.Controllers
 {
     public class ProductFetchController : ApiController
     {
@@ -31,25 +31,26 @@ namespace Megastore.Controllers.API
 
         private async Task<object> GetProductData() {
             using (HttpClient httpClient = new HttpClient()) {
-                if (System.Diagnostics.Debugger.IsAttached == false) {
-                    System.Diagnostics.Debugger.Launch();
-                }
-                var payload = new FilterParameters();
-                payload.filter = new Filter();
-                string json = JsonConvert.SerializeObject(payload);
 
-                var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator("products/search"), new StringContent(json, Encoding.UTF8, "application/json")).Result;
+                var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator("search"), new StringContent("", Encoding.UTF8, "application/json")).Result;
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var list = JsonConvert.DeserializeObject<FilterSource>(responseContent);
-
-                try {
-                    list.PopulateFilters();
+                dynamic productResponse = JsonConvert.DeserializeObject(responseContent);
+                var products = new List<Product>();
+              
+                foreach(var p in productResponse.products) {
+                    products.Add(new Product()
+                    {
+                        Url = p.url,
+                        Title = p.title,
+                        Brand = p.brand,
+                        Description = p.description,
+                        Image = p.image,
+                        Price = p.price,
+                        SiteName = p.site_name
+                    });
                 }
-                catch (Exception e) {
-                    Debug.WriteLine(e.ToString());
-                }
 
-                return responseContent;
+                return products;
             }
         }
     }

@@ -25,24 +25,22 @@ namespace Megastore.Controllers
             twoTapHelper = new Helper();
         }
 
-        //public async Task<IEnumerable<object>> Get() {
-            
-        //}
+        public async Task<IEnumerable<object>> Get() {
+            var result = await GetSeedData();
+            return new object[] { result };
+        }
 
-        private async Task<object> GetSeedData(string queryType, Boolean filters) {
+        private async Task<object> GetSeedData() {
             using (HttpClient httpClient = new HttpClient()) {
                 if (System.Diagnostics.Debugger.IsAttached == false) {
                     System.Diagnostics.Debugger.Launch();
                 }
 
-                string json = "{}";
-                if(filters) {
-                    var payload = new FilterParameters();
-                    payload.filter = new Filter();
-                    json = JsonConvert.SerializeObject(payload);
-                }
-                var url = twoTapHelper.TwoTapURLCreator(queryType);
-                var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator(queryType), new StringContent(json, Encoding.UTF8, "application/json")).Result;
+                var payload = new FilterParameters();
+                payload.filter = new Filter();
+                string json = JsonConvert.SerializeObject(payload);
+
+                var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator("filters"), new StringContent(json, Encoding.UTF8, "application/json")).Result;
                 var responseContent = await response.Content.ReadAsStringAsync();
                 // Trying to deserialize on type of FIlter source. This is not universal
                 var list = JsonConvert.DeserializeObject<FilterSource>(responseContent);
@@ -59,7 +57,7 @@ namespace Megastore.Controllers
 
         // POST api/<controller>
         public async Task<IEnumerable<object>> Post([FromBody]dynamic data) {
-            var result = await GetSeedData(data.queryType, data.filters);
+            var result = await GetSeedData();
 
             return new object[] { result };
         }
