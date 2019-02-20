@@ -4,14 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
-using System.Dynamic;
 using Newtonsoft.Json;
 using System.Text;
 using Megastore.Models;
-using System.Data.Entity;
 using Megastore.Helpers;
-using TwoTap.Models;
-using System.Diagnostics;
 
 namespace Megastore.Controllers
 {
@@ -23,19 +19,19 @@ namespace Megastore.Controllers
             twoTapHelper = new Helper();
         }
 
-        public async Task<IEnumerable<object>> Get() {
+        public async Task<IEnumerable<Product>> Get() {
             var result = await GetProductData();
 
-            return new object[] { result };
+            return result;
         }
 
-        private async Task<object> GetProductData() {
+        private async Task<IEnumerable<Product>> GetProductData() {
             using (HttpClient httpClient = new HttpClient()) {
 
                 var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator("search"), new StringContent("", Encoding.UTF8, "application/json")).Result;
                 var responseContent = await response.Content.ReadAsStringAsync();
                 dynamic productResponse = JsonConvert.DeserializeObject(responseContent);
-                var products = new List<Product>();
+                List<Product> products = new List<Product>();
               
                 foreach(var p in productResponse.products) {
                     products.Add(new Product()

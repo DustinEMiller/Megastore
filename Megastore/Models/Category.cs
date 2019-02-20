@@ -13,5 +13,6 @@ namespace Megastore.Models
         [StringLength(255)]
         public string Name { get; set; }
         public int ParentId { get; set; }
+        public Boolean InMenu { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Http;
 using System.Net.Http;
-using Megastore.Controllers;
+using Megastore.Models;
 
 namespace Megastore.Controllers
 {
@@ -15,10 +15,10 @@ namespace Megastore.Controllers
             using (HttpClient httpClient = new HttpClient()) {
                 var productApi = new ProductFetchController();
 
-                var products = await productApi.Get();
+                IEnumerable<Product> products = await productApi.Get();
                 ViewBag.Message = "Your application description page.";
                 // This is just a string of the json result.
-                return View(products.ToList());
+                return View(products);
             }
         }
 
