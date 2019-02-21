@@ -8,11 +8,11 @@ using Megastore.Models;
 
 namespace Megastore.Controllers.Admin
 {
-    public class CategoryController : Controller
+    public class CategoryAdminController : Controller
     {
         private ApplicationDbContext _context;
 
-        public CategoryController() {
+        public CategoryAdminController() {
             _context = new ApplicationDbContext();
         }
 
@@ -25,5 +25,18 @@ namespace Megastore.Controllers.Admin
         {
             return View();
         }
+
+        public JsonResult Get() {
+            List<Category> categories;
+
+            categories = _context.Categories.Where(c => c.ParentId == 0).Take(10).
+                Select(c => new Category
+                {
+
+                }).ToList();
+
+            return this.Json(categories, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

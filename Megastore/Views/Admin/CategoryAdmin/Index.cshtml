@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Category Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div id="tree"></div>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gijgo@1.9.11/js/gijgo.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gijgo@1.9.11/css/gijgo.min.css"></script>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tree').tree({
+                uiLibrary: 'bootstrap4',
+                dataSource: '/categoryadmin/Get',
+                primaryKey: 'id',
+            });
+        });
+    </script>
+}
