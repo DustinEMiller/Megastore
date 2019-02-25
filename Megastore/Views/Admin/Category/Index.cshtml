@@ -10,14 +10,37 @@
 
 @section scripts
 {
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gijgo@1.9.11/js/gijgo.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gijgo@1.9.11/css/gijgo.min.css"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#tree').tree({
-                uiLibrary: 'bootstrap4',
-                dataSource: 'category/get',
-                primaryKey: 'id',
+            populateNode();
+            function populateNode() {
+                $.ajax({
+                    url: "/category/get", 
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success = "true") {
+                            if (result.length > 0) {
+                                var newnode = "<ul>"  
+                                $.each(result, function (index, item) {
+
+                                    newnode += "<li class='note' data-id =" + item.Id + " >" + item.Name + " </li>"
+                                })
+                                newnode += "</ul>";
+
+                                $(newnode).appendTo("#tree");
+                            }
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("error");
+                    }
+                });
+            }
+
+            $(".note").click(function () {
+                var currentNode = $(this); 
+                var value = currentNode.attr("data-id");  //get current node id
+                
             });
         });
     </script>

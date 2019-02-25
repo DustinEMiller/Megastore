@@ -30,7 +30,7 @@ namespace Megastore.Controllers.Admin
             List<Category> categories;
             List<Category> categoryTree;
 
-            categories = _context.Categories.Where(c => c.ParentId == 0).Take(10).ToList();
+            categories = _context.Categories.Where(c => c.ParentId == 0).ToList();
 
             categoryTree = categories.
                 Select(c => new Category
@@ -45,13 +45,17 @@ namespace Megastore.Controllers.Admin
         }
 
         private List<Category> GetChildren(List<Category> categories, int parentId) {
-            return categories.Where(c => c.ParentId == parentId)
-                .Select(c => new Category
+            List<Category> cats;
+
+            cats = _context.Categories.Where(c => c.ParentId == parentId).ToList();
+
+            return cats.
+                Select(c => new Category
                 {
                     Id = c.Id,
                     Name = c.Name,
                     ParentId = c.ParentId,
-                    Children = GetChildren(categories, c.Id)
+                    Children = GetChildren(cats, c.Id)
                 }).ToList();
         }
 
