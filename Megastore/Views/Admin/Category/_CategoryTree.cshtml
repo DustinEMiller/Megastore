@@ -1,0 +1,24 @@
+﻿@model List<Megastore.Models.Category>
+
+    <div style="border:solid 1px black; padding:10px; background-color:#FAFAFA">
+        <div class="treeview">
+            @if (Model != null && Model.Count() > 0) {
+                <ul>
+                    @CategoryTree.GetTreeView(Model, Model.FirstOrDefault().ParentId)
+                </ul>
+            }
+        </div>
+    </div>
+
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+                $(".collapsible").click(function (e) {
+                    e.preventDefault();
+                    $(this).toggleClass("collapse expand");
+                    $(this).closest('li').children('ul').slideToggle();
+                });
+            });
+        </script>
+    }

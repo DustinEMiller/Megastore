@@ -1,46 +1,63 @@
 ﻿
+@model List<Megastore.Models.Category>
+
 @{
     ViewBag.Title = "Category Admin";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<style>
+    .collapse {
+        width: 15px;
+        background-image: url('../Images/ui-icons_454545_256x240.png');
+        background-repeat: no-repeat;
+        background-position: -36px -17px;
+        display: inline-block;
+        cursor: pointer;
+    }
 
+    .expand {
+        width: 15px;
+        background-image: url('../Images/ui-icons_454545_256x240.png');
+        background-repeat: no-repeat;
+        background-position: -50px -17px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .treeview ul {
+        font: 14px Arial, Sans-Serif;
+        margin: 0px;
+        padding-left: 20px;
+        list-style: none;
+    }
+
+    .treeview > li > a {
+        font-weight: bold;
+    }
+
+    .treeview li {
+    }
+
+        .treeview li a {
+            padding: 4px;
+            font-size: 12px;
+            display: inline-block;
+            text-decoration: none;
+            width: auto;
+        }
+</style>
 <div class="container-fluid">
-    <div id="tree"></div>
+    <div id="tree">@Html.Action("CategoryTree", "Category")</div>
 </div>
 
-@section scripts
-{
-    <script type="text/javascript">
+@section scripts{
+    <script>
         $(document).ready(function () {
-            populateNode();
-            function populateNode() {
-                $.ajax({
-                    url: "/category/get", 
-                    dataType: "json",
-                    success: function (result) {
-                        if (result.success = "true") {
-                            if (result.length > 0) {
-                                var newnode = "<ul>"  
-                                $.each(result, function (index, item) {
-
-                                    newnode += "<li class='note' data-id =" + item.Id + " >" + item.Name + " </li>"
-                                })
-                                newnode += "</ul>";
-
-                                $(newnode).appendTo("#tree");
-                            }
-                        }
-                    },
-                    error: function (xhr) {
-                        alert("error");
-                    }
-                });
-            }
-
-            $(".note").click(function () {
-                var currentNode = $(this); 
-                var value = currentNode.attr("data-id");  //get current node id
-                
+            $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+            $(".collapsible").click(function (e) {
+                e.preventDefault();
+                $(this).toggleClass("collapse expand");
+                $(this).closest('li').children('ul').slideToggle();
             });
         });
     </script>

@@ -26,6 +26,16 @@ namespace Megastore.Controllers.Admin
             return View("~/Views/Admin/Category/Index.cshtml");
         }
 
+        [ChildActionOnly]
+        public ActionResult CategoryTree() {
+            List<Category> categories = new List<Category>();
+
+            using (_context) {
+                categories = _context.Categories.OrderBy(c => c.ParentId).ToList();
+            }
+            return PartialView("~/Views/Admin/Category/_CategoryTree.cshtml", categories);
+        }
+
         public JsonResult Get() {
             List<Category> categories;
             List<Category> categoryTree;
