@@ -1,0 +1,28 @@
+﻿@model Megastore.Models.Category
+
+<h2>@Model.Name</h2>
+
+@using (Html.BeginForm("Save", "Category")) {
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+    <div class="form-group">
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(c => c.InMenu) Show in Menu?
+        </label>
+    </div>
+
+    @Html.HiddenFor(c => c.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
