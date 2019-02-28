@@ -3,13 +3,13 @@
         <li>
             @{var submenu = category.Where(c => c.ParentId.Equals(i.Id)).Count();}
             @if (submenu > 0) {
-                <span class="collapse collapsible">&nbsp;</span>
+            <span class="collapse collapsible"><ion-icon name="arrow-dropright"></ion-icon></span>
             }
             else {
                 <span style="width:15px; display:inline-block">&nbsp;</span>
             }
             <span>
-                <a data-id="@i.Id">@i.Name</a>
+                <a class="load-cat" data-id="@i.Id">@i.Name</a>
             </span>
             @if (submenu > 0) {
                 <ul>

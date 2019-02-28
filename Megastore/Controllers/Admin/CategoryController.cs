@@ -36,8 +36,6 @@ namespace Megastore.Controllers.Admin
             return PartialView("~/Views/Admin/Category/_CategoryTree.cshtml", categories);
         }
 
-        [HttpPost]
-        [ChildActionOnly]
         public ActionResult CategoryInfo(int id) {
             var category = _context.Categories.SingleOrDefault(c => c.Id == id);
 

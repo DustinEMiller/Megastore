@@ -9,7 +9,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">@Html.Action("CategoryTree", "Category")</div>
-        <div class="col-9">@Html.Action("CategoryInfo", "Category", new { id  = 0 })</div>
+        <div class="col-9"><div id="category-info"></div></div>
     </div>
 </div>
 
@@ -21,6 +21,32 @@
                 e.preventDefault();
                 $(this).toggleClass("collapse expand");
                 $(this).closest('li').children('ul').slideToggle();
+
+                if ($(this).hasClass("expand")) {
+                    $(this).html('<ion-icon name="arrow-dropdown"></ion-icon>');
+                } else {
+                    $(this).html('<ion-icon name="arrow-dropright"></ion-icon>');
+                }
+            });
+
+            $('.load-cat').on('click', function (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+
+                var catInfo = $('#category-info'),
+                    dataId = $(this).data('id');
+
+                $.ajax({
+                    url: "category/categoryInfo",
+                    method: "GET",
+                    data: { id: dataId }
+                })
+                .done(function (data) {
+                    catInfo.replaceWith(data);
+                })
+                .fail(function () {
+                    alert("Something unexpected happened");
+                });
             });
         });
     </script>

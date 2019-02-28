@@ -25,13 +25,12 @@
     font-weight: bold;
 }
 
-.treeview li {
-}
-
 .treeview li a {
     padding: 4px;
     font-size: 12px;
     display: inline-block;
     text-decoration: none;
     width: auto;
+    cursor: pointer;
+    color: #3c8dbc !important;
 }
