@@ -37,7 +37,19 @@ namespace Megastore.Controllers.Admin
         }
 
         public ActionResult CategoryInfo(int id) {
-            var category = _context.Categories.SingleOrDefault(c => c.Id == id);
+            var category = _context.Categories.Single(c => c.Id == id);
+
+            return PartialView("~/Views/Admin/Category/_CategoryInfo.cshtml", category);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(Category category) {
+
+            var cat = _context.Categories.Single(c => c.Id == category.Id);
+            cat.InMenu = cat.InMenu;
+
+            _context.SaveChanges();
 
             return PartialView("~/Views/Admin/Category/_CategoryInfo.cshtml", category);
         }

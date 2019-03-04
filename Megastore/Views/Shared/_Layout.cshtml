@@ -20,14 +20,24 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-4">
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4">
                     <ul class="list-inline">
-                        <li class="list-inline-item">@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
                         <li class="list-inline-item">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="list-inline-item">@Html.ActionLink("About", "About", "Home")</li>
                         <li class="list-inline-item">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     </ul>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-4">
+
+                    <!--Use FilterParameer model to send data to search controller-->
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Get)) {
+                        @Html.TextBox("search") 
+                        <input type = "submit" name = "submit" value = "Search" />
+                        }
+                    </div>
             </div>
         </div>
     </div>

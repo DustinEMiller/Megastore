@@ -4,11 +4,6 @@
 
     @using (Html.BeginForm("Save", "Category")) {
         @Html.ValidationSummary(true, "Please fix the following errors.")
-        <div class="form-group">
-            @Html.LabelFor(c => c.Name)
-            @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
-        </div>
-
         <div class="checkbox">
             <label>
                 @Html.CheckBoxFor(c => c.InMenu) Show in Menu?
