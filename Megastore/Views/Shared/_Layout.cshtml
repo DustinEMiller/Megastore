@@ -31,13 +31,9 @@
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4">
-
                     <!--Use FilterParameer model to send data to search controller-->
-                    @using (Html.BeginForm("Index", "Home", FormMethod.Get)) {
-                        @Html.TextBox("search") 
-                        <input type = "submit" name = "submit" value = "Search" />
-                        }
-                    </div>
+                    <input type="submit" name="submit" value ="Search" id="search"/>
+                </div>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
 
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var productList = $('#product-list');
 
             $.ajax({
@@ -18,6 +18,32 @@
             })
             .fail(function () {
                 alert("Something unexpected happened");
+                });
+
+            $("#search").click(function(e) {
+                e.preventDefault();
+
+                var filter = { };
+                filter.keywords = $("#search").val();
+                filter.keywords_fields = ["title", "description"];
+                filter.site_ids = [];
+                filter.genders = [];
+                filter.categories = [];
+                filter.promotions = [];
+                filter.brands = [];
+                filter.intl_enabled = false;
+                filter.approved = false;
+                //"keywords_fields": ["Array. Works together with keywords. Choose the fields  in which search/scroll should look. Possible values are 'title', 'brand', 'description', 'url'."],
+
+                $.ajax({
+                    url: "product/productPostList",
+                    data: {
+                        "searchingString":$("#txtSerach").val()
+                    },
+                    success: function (data) {
+                        productList.replaceWith(data);
+                    }
+                });
             });
         });
     </script>
