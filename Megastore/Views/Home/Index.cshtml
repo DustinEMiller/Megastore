@@ -3,48 +3,67 @@
 }
 
 <div id="product-list" class="container"></div>
-
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <button id="more">More</button>
+    </div>
+</div>
 @section scripts{
     <script>
         $(document).ready(function() {
             var productList = $('#product-list');
+            var pageNumber = 1;
 
             $.ajax({
                 url: "product/productList",
                 method: "GET"
             })
             .done(function (data) {
-                productList.replaceWith(data);
+                productList.html(data);
             })
-            .fail(function () {
+            .fail(function() {
                 alert("Something unexpected happened");
-                });
+            });
 
-            $("#search").click(function(e) {
+            $("#search-submit").click(function(e) {
                 e.preventDefault();
+                loadProducts(false);
+            });
 
-                var filter = { };
-                filter.keywords = $("#search").val();
-                filter.keywords_fields = ["title", "description"];
-                filter.site_ids = [];
-                filter.genders = [];
-                filter.categories = [];
-                filter.promotions = [];
-                filter.brands = [];
-                filter.intl_enabled = false;
-                filter.approved = false;
-                //"keywords_fields": ["Array. Works together with keywords. Choose the fields  in which search/scroll should look. Possible values are 'title', 'brand', 'description', 'url'."],
+            $("#more").click(function(e) {
+                e.preventDefault();
+                pageNumber++;
+                loadProducts(true);
+            });
+
+            function loadProducts(append) {
+                var filterParameter = {
+                    filter: {
+                        keywords: $("#search").val(),
+                        keywords_fields: ["title", "description"]
+                    },
+                    per_page: 15,
+                    page: pageNumber
+                };
 
                 $.ajax({
                     url: "product/productPostList",
-                    data: {
-                        "searchingString":$("#txtSerach").val()
-                    },
-                    success: function (data) {
-                        productList.replaceWith(data);
-                    }
+                    contentType: "application/json",
+                    method: "POST",
+                    data: JSON.stringify(filterParameter),
+                })
+                    .done(function (data) {
+                        if (append) {
+                            productList.append(data);
+                        } else {
+                            productList.html(data);
+                        }
+                    
+                })
+                .fail(function () {
+                    alert("Impossible");
                 });
-            });
+            };
         });
     </script>
 }

@@ -25,7 +25,7 @@ namespace Megastore.Controllers
             return result;
         }
 
-        public async Task<IEnumerable<Product>> Post(Filter filter) {
+        public async Task<IEnumerable<Product>> Post(FilterParameters filter) {
             var result = await PostProductData(filter);
 
             return result;
@@ -56,7 +56,7 @@ namespace Megastore.Controllers
             }
         }
 
-        private async Task<IEnumerable<Product>> PostProductData(Filter filter) {
+        private async Task<IEnumerable<Product>> PostProductData(FilterParameters filter) {
             using (HttpClient httpClient = new HttpClient()) {
                 string jsonFilter = JsonConvert.SerializeObject(filter);
                 var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator("search"), new StringContent(jsonFilter, Encoding.UTF8, "application/json")).Result;
