@@ -6,18 +6,18 @@ using System.Web;
 using System.Web.Mvc;
 using Megastore.Models;
 
-namespace Megastore.Controllers.Admin
+namespace Megastore.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
-        private ApplicationDbContext _context;
+        private ApplicationDbContext db;
 
         public CategoryController() {
-            _context = new ApplicationDbContext();
+            db = new ApplicationDbContext();
         }
 
         protected override void Dispose(bool disposing) {
-            _context.Dispose();
+            db.Dispose();
         }
 
         // GET: Admin
@@ -30,14 +30,14 @@ namespace Megastore.Controllers.Admin
         public ActionResult CategoryTree() {
             List<Category> categories = new List<Category>();
 
-            using (_context) {
-                categories = _context.Categories.OrderBy(c => c.ParentId).ToList();
+            using (db) {
+                categories = db.Categories.OrderBy(c => c.ParentId).ToList();
             }
             return PartialView("~/Views/Admin/Category/_CategoryTree.cshtml", categories);
         }
 
         public ActionResult CategoryInfo(int id) {
-            var category = _context.Categories.Single(c => c.Id == id);
+            var category = db.Categories.Single(c => c.Id == id);
 
             return PartialView("~/Views/Admin/Category/_CategoryInfo.cshtml", category);
         }
@@ -46,10 +46,10 @@ namespace Megastore.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult Save(Category category) {
 
-            var cat = _context.Categories.Single(c => c.Id == category.Id);
+            var cat = db.Categories.Single(c => c.Id == category.Id);
             cat.InMenu = cat.InMenu;
 
-            _context.SaveChanges();
+            db.SaveChanges();
 
             return PartialView("~/Views/Admin/Category/_CategoryInfo.cshtml", category);
         }
@@ -58,7 +58,7 @@ namespace Megastore.Controllers.Admin
             List<Category> categories;
             List<Category> categoryTree;
 
-            categories = _context.Categories.Where(c => c.ParentId == 0).ToList();
+            categories = db.Categories.Where(c => c.ParentId == 0).ToList();
 
             categoryTree = categories.
                 Select(c => new Category
@@ -75,7 +75,7 @@ namespace Megastore.Controllers.Admin
         private List<Category> GetChildren(List<Category> categories, int parentId) {
             List<Category> cats;
 
-            cats = _context.Categories.Where(c => c.ParentId == parentId).ToList();
+            cats = db.Categories.Where(c => c.ParentId == parentId).ToList();
 
             return cats.
                 Select(c => new Category

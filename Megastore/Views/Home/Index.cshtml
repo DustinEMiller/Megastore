@@ -14,19 +14,11 @@
             var productList = $('#product-list');
             var pageNumber = 1;
 
-            $.ajax({
-                url: "product/productList",
-                method: "GET"
-            })
-            .done(function (data) {
-                productList.html(data);
-            })
-            .fail(function() {
-                alert("Something unexpected happened");
-            });
+            loadProducts(false);
 
             $("#search-submit").click(function(e) {
                 e.preventDefault();
+                pageNumber=1;
                 loadProducts(false);
             });
 
