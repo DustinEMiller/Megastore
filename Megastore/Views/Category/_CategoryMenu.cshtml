@@ -9,8 +9,8 @@
     @if (i + prodsPerColumn + extraCats == @Model.Count()) {
         prodsPerColumn += extraCats;
     }
-    @foreach (var item in Model.Skip(i).Take(prodsPerColumn)) {
-        @Html.ActionLink(@item.Name, "Details", "Category", new { categoryId = @item.Id }, new { @class= "dropdown-item" })
+    @foreach (var category in Model.Skip(i).Take(prodsPerColumn)) {
+        @Html.ActionLink(@category.Name, "ListAsync", "Category", new { Id = @category.Id }, new { @class= "dropdown-item" })
     }
 </div>
 }

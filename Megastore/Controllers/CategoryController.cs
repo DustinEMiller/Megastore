@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Megastore.Models;
+using System.Net.Http;
+using Megastore.ViewModels;
 
 namespace Megastore.Controllers
 {
@@ -26,8 +28,7 @@ namespace Megastore.Controllers
             return PartialView("~/Views/Category/_CategoryMenu.cshtml", categories);
         }
 
-        // GET: Category/Details/5
-        public ActionResult Details(int? id)
+        public async System.Threading.Tasks.Task<ActionResult> ListAsync(int? id)
         {
             if (id == null)
             {
@@ -38,7 +39,20 @@ namespace Megastore.Controllers
             {
                 return HttpNotFound();
             }
-            return View(category);
+
+            FilterParameters filterParameter = new FilterParameters();
+            filterParameter.filter = new Models.Filter();
+            filterParameter.filter.categories = new List<object>();
+            filterParameter.filter.categories.Add(category);
+
+            using (HttpClient httpClient = new HttpClient()) {
+                var productApi = new ProductFetchController();
+
+                IEnumerable<Product> products = await productApi.Post(filterParameter); ;
+                var categoryList = new CategoryList { Category = category, Products = products};
+                return View(categoryList);
+            }
+            
         }
 
         // GET: Category/Create
