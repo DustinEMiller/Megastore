@@ -19,13 +19,7 @@ namespace Megastore.Controllers
             twoTapHelper = new Helper();
         }
 
-        public async Task<IEnumerable<Product>> Post(FilterParameters filter) {
-            var result = await PostProductData(filter);
-
-            return result;
-        }
-
-        private async Task<IEnumerable<Product>> PostProductData(FilterParameters filter) {
+        public async Task<dynamic> Post(FilterParameters filter) {
             using (HttpClient httpClient = new HttpClient()) {
                 string jsonFilter = JsonConvert.SerializeObject(filter);
                 var response = httpClient.PostAsync(twoTapHelper.TwoTapURLCreator("search"), new StringContent(jsonFilter, Encoding.UTF8, "application/json")).Result;
@@ -46,7 +40,14 @@ namespace Megastore.Controllers
                     });
                 }
 
-                return products;
+                dynamic productInfo = new
+                {
+                    Products = products,
+                    Pages = productResponse.total / productResponse.per_page,
+                    CurrentPage = productResponse.page
+                };
+
+                return productInfo;
             }
         }
     }

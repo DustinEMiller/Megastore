@@ -1,0 +1,24 @@
+﻿@model Megastore.Models.PagingInfo
+<div class="row">
+    <div class="col-md-12">
+        @{var firstPage = Model.CurrentPageIndex - 2; }
+        @{var lastPage = Model.PageCount; }
+        @if ((Model.PageCount - Model.CurrentPageIndex) < 3) {
+            firstPage = Model.PageCount - 5;
+            lastPage = Model.PageCount;
+        }
+        else if (Model.CurrentPageIndex < 3) {
+            firstPage = 1;
+        }
+        <span class="book-end front">@firstPage</span>
+        @for (var i = firstPage; i < firstPage + 5; i++) {
+            if (i == Model.CurrentPageIndex) {
+                <span>@i</span>
+            }
+            else {
+                <a href="#" data-pageindex="@i" class="pager">@i</a>
+            }
+        }
+        <span class="book-end last">@lastPage</span>
+    </div>
+</div>

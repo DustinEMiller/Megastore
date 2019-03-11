@@ -1,9 +1,7 @@
-﻿@model Megastore.ViewModels.CategoryList
-@using System.Linq
-@{
-    ViewBag.Title = Model.Category.Name;
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@using System.Linq
+@model Megastore.ViewModels.CategoryList
+
+@Html.Partial("~/Views/Category/_Pager.cshtml", @Model.PagingInfo)
 
 @for (int i = 0; i < @Model.Products.Count(); i += 3) {
     <div class="row">

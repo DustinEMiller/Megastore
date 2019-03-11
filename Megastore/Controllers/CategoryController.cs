@@ -41,111 +41,35 @@ namespace Megastore.Controllers
             }
 
             FilterParameters filterParameter = new FilterParameters();
+            filterParameter.per_page = 18; //TODO: Make this a config item in admin or option in paging block
             filterParameter.filter = new Models.Filter();
             filterParameter.filter.categories = new List<object>();
-            filterParameter.filter.categories.Add(category);
+            filterParameter.filter.categories.Add(category.Name);
 
             using (HttpClient httpClient = new HttpClient()) {
                 var productApi = new ProductFetchController();
+                dynamic productResponse = await productApi.Post(filterParameter);
+                IEnumerable<Product> products = productResponse.Products;
 
-                IEnumerable<Product> products = await productApi.Post(filterParameter); ;
-                var categoryList = new CategoryList { Category = category, Products = products};
+                PagingInfo pagingInfo = new PagingInfo();
+                pagingInfo.CurrentPageIndex = productResponse.CurrentPage;
+                pagingInfo.PageCount = productResponse.Pages;
+
+                var categoryList = new CategoryList { Category = category, Products = products, PagingInfo = pagingInfo };
                 return View(categoryList);
             }
             
         }
 
-        // GET: Category/Create
-        public ActionResult Create()
-        {
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name");
-            return View();
+        public async System.Threading.Tasks.Task<ActionResult> PostList(Megastore.Models.FilterParameters filterParameter) {
+            using (HttpClient httpClient = new HttpClient()) {
+                var productApi = new ProductFetchController();
+
+                IEnumerable<Product> products = await productApi.Post(filterParameter); ;
+                // This is just a string of the json result.
+                return PartialView("~/Views/Product/_ProductList.cshtml", products);
+            }
         }
 
-        // POST: Category/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ParentId,InMenu")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Categories.Add(category);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name", category.ParentId);
-            return View(category);
-        }
-
-        // GET: Category/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name", category.ParentId);
-            return View(category);
-        }
-
-        // POST: Category/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ParentId,InMenu")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name", category.ParentId);
-            return View(category);
-        }
-
-        // GET: Category/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
-        }
-
-        // POST: Category/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

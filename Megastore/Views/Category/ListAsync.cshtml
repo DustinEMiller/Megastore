@@ -1,0 +1,7 @@
+﻿@model Megastore.ViewModels.CategoryList
+@using System.Linq
+@{
+    ViewBag.Title = Model.Category.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("~/Views/Category/_ProductList.cshtml", @Model)

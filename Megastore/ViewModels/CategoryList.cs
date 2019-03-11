@@ -10,5 +10,6 @@ namespace Megastore.ViewModels
     {
         public IEnumerable<Product> Products { get; set; }
         public Category Category { get; set; }
+        public PagingInfo PagingInfo { get; set; }
     }
 }

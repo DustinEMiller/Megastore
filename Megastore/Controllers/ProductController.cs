@@ -15,7 +15,8 @@ namespace Megastore.Controllers
             using (HttpClient httpClient = new HttpClient()) {
                 var productApi = new ProductFetchController();
 
-                IEnumerable<Product> products = await productApi.Post(filterParameter); ;
+                dynamic response = await productApi.Post(filterParameter);
+                IEnumerable<Product> products = response.Products;
                 // This is just a string of the json result.
                 return PartialView("~/Views/Product/_ProductList.cshtml", products);
             }

@@ -254,6 +254,7 @@
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\FilterSource.cs" />
+    <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\Size.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -370,7 +371,9 @@
     <Content Include="Areas\Admin\Views\Category\_CategoryInfo.cshtml" />
     <Content Include="Views\Product\_ProductList.cshtml" />
     <Content Include="Views\Category\_CategoryMenu.cshtml" />
-    <Content Include="Views\Category\List.cshtml" />
+    <Content Include="Views\Category\ListAsync.cshtml" />
+    <Content Include="Views\Category\_ProductList.cshtml" />
+    <Content Include="Views\Category\_Pager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
