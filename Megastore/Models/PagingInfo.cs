@@ -11,5 +11,6 @@ namespace Megastore.Models
     public class PagingInfo {
         public int PageCount { get; set; }
         public int CurrentPageIndex { get; set; }
+        public int CurrentCategory { get; set; }
     }
 }

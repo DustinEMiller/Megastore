@@ -28,7 +28,7 @@ namespace Megastore.Controllers
             return PartialView("~/Views/Category/_CategoryMenu.cshtml", categories);
         }
 
-        public async System.Threading.Tasks.Task<ActionResult> ListAsync(int? id)
+        public async System.Threading.Tasks.Task<ActionResult> ListAsync(int? id, int? page)
         {
             if (id == null)
             {
@@ -41,6 +41,9 @@ namespace Megastore.Controllers
             }
 
             FilterParameters filterParameter = new FilterParameters();
+            if (page != null) {
+                filterParameter.page = (int)page;
+            }
             filterParameter.per_page = 18; //TODO: Make this a config item in admin or option in paging block
             filterParameter.filter = new Models.Filter();
             filterParameter.filter.categories = new List<object>();
@@ -54,6 +57,7 @@ namespace Megastore.Controllers
                 PagingInfo pagingInfo = new PagingInfo();
                 pagingInfo.CurrentPageIndex = productResponse.CurrentPage;
                 pagingInfo.PageCount = productResponse.Pages;
+                pagingInfo.CurrentCategory = category.Id;
 
                 var categoryList = new CategoryList { Category = category, Products = products, PagingInfo = pagingInfo };
                 return View(categoryList);

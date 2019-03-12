@@ -1,4 +1,4 @@
-﻿@model Megastore.Models.PagingInfo
+﻿
 <div class="row">
     <div class="col-md-12">
         @{var firstPage = Model.CurrentPageIndex - 2; }
@@ -10,15 +10,16 @@
         else if (Model.CurrentPageIndex < 3) {
             firstPage = 1;
         }
-        <span class="book-end front">@firstPage</span>
+        <span class="pager-book-end first">@Html.ActionLink("First", "ListAsync", "Category", new { Id = Model.CurrentCategory, page = firstPage }, null)</span>
         @for (var i = firstPage; i < firstPage + 5; i++) {
             if (i == Model.CurrentPageIndex) {
-                <span>@i</span>
+                <span class="pager-current">@i</span>
             }
             else {
-                <a href="#" data-pageindex="@i" class="pager">@i</a>
+                string pageNumber = i.ToString();
+                @Html.ActionLink(pageNumber, "ListAsync", "Category", new { Id = Model.CurrentCategory, page = i }, null)
             }
         }
-        <span class="book-end last">@lastPage</span>
+        <span class="pager-book-end last">@Html.ActionLink("Last", "ListAsync", "Category", new { Id = Model.CurrentCategory, page = lastPage }, null)</span>
     </div>
 </div>
