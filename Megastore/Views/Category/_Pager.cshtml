@@ -4,13 +4,13 @@
         @{var firstPage = Model.CurrentPageIndex - 2; }
         @{var lastPage = Model.PageCount; }
         @if ((Model.PageCount - Model.CurrentPageIndex) < 3) {
-            firstPage = Model.PageCount - 5;
+            firstPage = Model.PageCount - 4;
             lastPage = Model.PageCount;
         }
         else if (Model.CurrentPageIndex < 3) {
             firstPage = 1;
         }
-        <span class="pager-book-end first">@Html.ActionLink("First", "ListAsync", "Category", new { Id = Model.CurrentCategory, page = firstPage }, null)</span>
+        <span class="pager-book-end first">@Html.ActionLink("First", "ListAsync", "Category", new { Id = Model.CurrentCategory, page = 1 }, null)</span>
         @for (var i = firstPage; i < firstPage + 5; i++) {
             if (i == Model.CurrentPageIndex) {
                 <span class="pager-current">@i</span>

@@ -4,4 +4,12 @@
     ViewBag.Title = Model.Category.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("~/Views/Category/_ProductList.cshtml", @Model)
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-3">
+        Filters go here
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-9">
+        @Html.Partial("~/Views/Category/_ProductList.cshtml", @Model)
+    </div>
+</div>

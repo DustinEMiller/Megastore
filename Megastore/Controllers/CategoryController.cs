@@ -44,6 +44,7 @@ namespace Megastore.Controllers
             if (page != null) {
                 filterParameter.page = (int)page;
             }
+
             filterParameter.per_page = 18; //TODO: Make this a config item in admin or option in paging block
             filterParameter.filter = new Models.Filter();
             filterParameter.filter.categories = new List<object>();
