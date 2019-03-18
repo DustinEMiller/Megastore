@@ -21,10 +21,10 @@ namespace Megastore.Models
 
         public void populateWithoutCategories() {
             using (db) {
-                genders = db.Genders.ToList();
-                site_ids = db.Sites.ToList();
-                brands = db.Brands.ToList();
-                sizes = db.Sizes.ToList();
+                genders = db.Genders.OrderBy(g => g.Name).ToList();
+                site_ids = db.Sites.OrderBy(s => s.SiteId).ToList();
+                brands = db.Brands.OrderBy(g => g.Name).ToList();
+                sizes = db.Sizes.OrderBy(g => g.Name).ToList();
             }
         
         }

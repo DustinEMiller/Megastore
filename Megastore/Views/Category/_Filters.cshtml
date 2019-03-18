@@ -1,0 +1,35 @@
+﻿
+<div>
+    <div class="panel panel-primary">
+        <h3 class="panel-heading">Brand</h3>
+        <div class="panel-body fixed-panel">
+            <ul>
+                @foreach (var brand in Model.brands) {
+                    <li><a href="">@brand.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <h3 class="panel-heading">Size</h3>
+        <div class="panel-body fixed-panel">
+            <ul>
+                @foreach (var size in Model.sizes) {
+                    <li><a href="">@size.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <h3 class="panel-heading">Gender</h3>
+        <div class="panel-body fixed-panel">
+            <ul>
+                @foreach (var gender in Model.genders) {
+                    <li><a href="">@gender.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

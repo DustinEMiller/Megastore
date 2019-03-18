@@ -30,3 +30,9 @@ div.dropdown-multicol > div.dropdown-col {
     display: inline-block;
     width: 32%;
 }
+
+.fixed-panel {
+    min-height: 150px;
+    max-height: 150px;
+    overflow-y: scroll;
+}

@@ -50,6 +50,10 @@ namespace Megastore.Controllers
             filterParameter.filter.categories = new List<object>();
             filterParameter.filter.categories.Add(category.Name);
 
+            FilterNavigation filterNavigation = new FilterNavigation();
+            filterNavigation.populateWithoutCategories();
+            
+
             using (HttpClient httpClient = new HttpClient()) {
                 var productApi = new ProductFetchController();
                 dynamic productResponse = await productApi.Post(filterParameter);
@@ -60,7 +64,7 @@ namespace Megastore.Controllers
                 pagingInfo.PageCount = productResponse.Pages;
                 pagingInfo.CurrentCategory = category.Id;
 
-                var categoryList = new CategoryList { Category = category, Products = products, PagingInfo = pagingInfo };
+                var categoryList = new CategoryList { Category = category, Products = products, PagingInfo = pagingInfo, FilterNavigation = filterNavigation };
                 return View(categoryList);
             }
             
