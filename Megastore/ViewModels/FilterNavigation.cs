@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
+using Megastore.Models;
 
-namespace Megastore.Models
+namespace Megastore.ViewModels
 {
-    [NotMapped]
     public class FilterNavigation {
         public List<Category> categories = new List<Category>();
         public List<Gender> genders = new List<Gender>();
@@ -15,9 +13,18 @@ namespace Megastore.Models
         public List<Brand> brands = new List<Brand>();
         public List<Size> sizes = new List<Size>();
         public List<PriceRange> price_ranges = new List<PriceRange>();
+        public string thing = "yes"; 
 
         private ApplicationDbContext db = new ApplicationDbContext();
+        private string urlPath;
+        private NameValueCollection queryDictionary;
 
+
+        public FilterNavigation(string path) {
+            urlPath = path;
+            string queryString = new System.Uri(path).Query;
+            queryDictionary = System.Web.HttpUtility.ParseQueryString(queryString);
+        }
 
         public void populateWithoutCategories() {
             using (db) {

@@ -249,7 +249,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\FilterNavigation.cs" />
+    <Compile Include="ViewModels\FilterNavigation.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Promotion.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -376,6 +376,7 @@
     <Content Include="Views\Category\_ProductList.cshtml" />
     <Content Include="Views\Category\_Pager.cshtml" />
     <Content Include="Views\Category\_Filters.cshtml" />
+    <Content Include="Views\Category\_PartialPage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

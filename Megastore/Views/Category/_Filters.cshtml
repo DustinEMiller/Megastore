@@ -1,11 +1,29 @@
-﻿
+﻿@using System.Web.Mvc.Html;
+@model Megastore.ViewModels.FilterNavigation
+
+@functions
+{
+    RouteValueDictionary MergeIn(IDictionary<string, object> original_data, object more_data) {
+        var result = new RouteValueDictionary(original_data);
+        foreach (var k in HtmlHelper.ObjectToDictionary(more_data)) {
+            result[k.Key] = k.Value;
+        }
+        return result;
+    }
+}
+@{
+    var query_values = new Dictionary<string, object>();
+    this.Request.QueryString.CopyTo(query_values);
+}
 <div>
     <div class="panel panel-primary">
         <h3 class="panel-heading">Brand</h3>
         <div class="panel-body fixed-panel">
             <ul>
-                @foreach (var brand in Model.brands) {
-                    <li><a href="">@brand.Name</a></li>
+                @foreach (var brand in Model.) {
+                    <li>
+                        @Html.ActionLink(@brand.name, null, MergeIn(query_values, new { culture = "en" }), HtmlHelper.ObjectToDictionary(new { rel = "alternate", hreflang = "en" }))
+                    </li>
                 }
             </ul>
         </div>

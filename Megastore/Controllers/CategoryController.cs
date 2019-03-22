@@ -28,6 +28,16 @@ namespace Megastore.Controllers
             return PartialView("~/Views/Category/_CategoryMenu.cshtml", categories);
         }
 
+        [ChildActionOnly]
+        public ActionResult FilterNavigation() {
+            var path = Request.Url.Scheme + "://" + Request.Url.Host;
+            
+            FilterNavigation filterNavigation = new FilterNavigation(path + Request.Url.PathAndQuery);
+            filterNavigation.populateWithoutCategories();
+
+            return PartialView("~/Views/Category/_Filters.cshtml", filterNavigation);
+        }
+
         public async System.Threading.Tasks.Task<ActionResult> ListAsync(int? id, int? page)
         {
             if (id == null)
@@ -50,10 +60,6 @@ namespace Megastore.Controllers
             filterParameter.filter.categories = new List<object>();
             filterParameter.filter.categories.Add(category.Name);
 
-            FilterNavigation filterNavigation = new FilterNavigation();
-            filterNavigation.populateWithoutCategories();
-            
-
             using (HttpClient httpClient = new HttpClient()) {
                 var productApi = new ProductFetchController();
                 dynamic productResponse = await productApi.Post(filterParameter);
@@ -64,7 +70,7 @@ namespace Megastore.Controllers
                 pagingInfo.PageCount = productResponse.Pages;
                 pagingInfo.CurrentCategory = category.Id;
 
-                var categoryList = new CategoryList { Category = category, Products = products, PagingInfo = pagingInfo, FilterNavigation = filterNavigation };
+                var categoryList = new CategoryList { Category = category, Products = products, PagingInfo = pagingInfo };
                 return View(categoryList);
             }
             
