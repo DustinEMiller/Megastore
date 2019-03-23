@@ -16,7 +16,6 @@ namespace Megastore.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-
         [ChildActionOnly]
         public ActionResult Menu() {
             List<Category> categories = new List<Category>();
@@ -29,11 +28,20 @@ namespace Megastore.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult FilterNavigation() {
+        public ActionResult FilterNavigation(int? id) {
             var path = Request.Url.Scheme + "://" + Request.Url.Host;
+            string queryString = new System.Uri(path).Query;
             
-            FilterNavigation filterNavigation = new FilterNavigation(path + Request.Url.PathAndQuery);
-            filterNavigation.populateWithoutCategories();
+            FilterNavigation filterNavigation = new FilterNavigation();
+            filterNavigation.queryDictionary = System.Web.HttpUtility.ParseQueryString(queryString);
+            filterNavigation.categoryId = id;
+
+            using (db) {
+                filterNavigation.genders = db.Genders.OrderBy(g => g.Name).ToList();
+                filterNavigation.site_ids = db.Sites.OrderBy(s => s.SiteId).ToList();
+                filterNavigation.brands = db.Brands.OrderBy(g => g.Name).ToList();
+                filterNavigation.sizes = db.Sizes.OrderBy(g => g.Name).ToList();
+            }
 
             return PartialView("~/Views/Category/_Filters.cshtml", filterNavigation);
         }
@@ -44,6 +52,7 @@ namespace Megastore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Category category = db.Categories.Find(id);
             if (category == null)
             {

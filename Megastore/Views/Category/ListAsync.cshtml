@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-3">
-        @Html.Action("FilterNavigation", "Category")
+        @Html.Action("FilterNavigation", "Category", Model.Category.Id)
     </div>
     <div class="col-xs-12 col-sm-12 col-md-9">
         @Html.Partial("~/Views/Category/_ProductList.cshtml", @Model)

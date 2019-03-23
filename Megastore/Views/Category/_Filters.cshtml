@@ -20,10 +20,10 @@
         <h3 class="panel-heading">Brand</h3>
         <div class="panel-body fixed-panel">
             <ul>
-                @foreach (var brand in Model.) {
-                    <li>
-                        @Html.ActionLink(@brand.name, null, MergeIn(query_values, new { culture = "en" }), HtmlHelper.ObjectToDictionary(new { rel = "alternate", hreflang = "en" }))
-                    </li>
+                @foreach (var brand in Model.brands) {
+                <li>
+                    @Html.ActionLink(@brand.Name, "ListAsync", MergeIn(query_values, new { brand = brand.Name, Id = Model.categoryId }))
+                </li>
                 }
             </ul>
         </div>
@@ -34,7 +34,9 @@
         <div class="panel-body fixed-panel">
             <ul>
                 @foreach (var size in Model.sizes) {
-                    <li><a href="">@size.Name</a></li>
+                <li>
+                    @Html.ActionLink(@size.Name, "ListAsync", MergeIn(query_values, new { size = size.Name, Id = Model.categoryId }))
+                </li>
                 }
             </ul>
         </div>
@@ -45,7 +47,9 @@
         <div class="panel-body fixed-panel">
             <ul>
                 @foreach (var gender in Model.genders) {
-                    <li><a href="">@gender.Name</a></li>
+                <li>
+                    @Html.ActionLink(@gender.Name, "ListAsync", MergeIn(query_values, new { size = gender.Name, Id = Model.categoryId }))
+                </li>
                 }
             </ul>
         </div>
