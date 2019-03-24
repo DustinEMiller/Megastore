@@ -13,7 +13,7 @@ namespace Megastore.ViewModels
         public List<Brand> brands { get; set; }
         public List<Size> sizes { get; set; }
         public List<PriceRange> price_ranges { get; set; }
-        public NameValueCollection queryDictionary;
+        public NameValueCollection queryDictionary { get; set; }
         public int? categoryId { get; set; }
     }
 }

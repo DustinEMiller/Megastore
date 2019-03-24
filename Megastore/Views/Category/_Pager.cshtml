@@ -1,25 +1,38 @@
-﻿
-<div class="row">
-    <div class="col-md-12">
-        @{var firstPage = Model.CurrentPageIndex - 2; }
-        @{var lastPage = Model.PageCount; }
-        @if ((Model.PageCount - Model.CurrentPageIndex) < 3) {
-            firstPage = Model.PageCount - 4;
-            lastPage = Model.PageCount;
-        }
-        else if (Model.CurrentPageIndex < 3) {
-            firstPage = 1;
-        }
-        <span class="pager-book-end first">@Html.ActionLink("First", "ListAsync", "Category", new { Id = Model.CurrentCategory, page = 1 }, null)</span>
-        @for (var i = firstPage; i < firstPage + 5; i++) {
-            if (i == Model.CurrentPageIndex) {
-                <span class="pager-current">@i</span>
+﻿@using Megastore.Helpers
+@{
+    var msHelper = new Helper();
+    var query_values = new Dictionary<string, object>();
+    this.Request.QueryString.CopyTo(query_values);
+}
+@if (Model.PageCount > 1) {
+    <div class="row">
+        <div class="col-md-12">
+            @{var firstPage = Model.CurrentPageIndex - 2; }
+            @{var lastPage = Model.PageCount; }
+
+            @if ((Model.PageCount - Model.CurrentPageIndex) < 3) {
+                firstPage = Model.PageCount - 4;
+                lastPage = Model.PageCount;
             }
-            else {
-                string pageNumber = i.ToString();
-                @Html.ActionLink(pageNumber, "ListAsync", "Category", new { Id = Model.CurrentCategory, page = i }, null)
+            else if (Model.CurrentPageIndex < 3) {
+                firstPage = 1;
             }
-        }
-        <span class="pager-book-end last">@Html.ActionLink("Last", "ListAsync", "Category", new { Id = Model.CurrentCategory, page = lastPage }, null)</span>
+            @if (Model.PageCount > 5) {
+                <span class="pager-book-end first">@Html.ActionLink("First", "ListAsync", "Category", msHelper.MergeIn(query_values, new { Id = Model.CurrentCategory, page = 1 }), null)</span>
+             }
+
+            @for (var i = firstPage; i < firstPage + 5; i++) {
+                if (i == Model.CurrentPageIndex) {
+                    <span class="pager-current">@i</span>
+                }
+                else {
+                    string pageNumber = i.ToString();
+                    @Html.ActionLink(pageNumber, "ListAsync", "Category", msHelper.MergeIn(query_values, new { Id = Model.CurrentCategory, page = i }), null)
+                }
+             }
+            @if (Model.PageCount > 5) {
+                <span class="pager-book-end last">@Html.ActionLink("Last", "ListAsync", "Category", msHelper.MergeIn(query_values, new { Id = Model.CurrentCategory, page = lastPage }), null)</span>
+             }
+            </div>
     </div>
-</div>
+}

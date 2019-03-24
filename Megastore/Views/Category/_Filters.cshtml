@@ -1,17 +1,8 @@
-﻿@using System.Web.Mvc.Html;
+﻿@using Megastore.Helpers
 @model Megastore.ViewModels.FilterNavigation
 
-@functions
-{
-    RouteValueDictionary MergeIn(IDictionary<string, object> original_data, object more_data) {
-        var result = new RouteValueDictionary(original_data);
-        foreach (var k in HtmlHelper.ObjectToDictionary(more_data)) {
-            result[k.Key] = k.Value;
-        }
-        return result;
-    }
-}
 @{
+    var msHelper = new Helper();
     var query_values = new Dictionary<string, object>();
     this.Request.QueryString.CopyTo(query_values);
 }
@@ -22,9 +13,9 @@
         <div class="panel-body fixed-panel">
             <ul>
                 @foreach (var brand in Model.brands) {
-                <li>
-                    @Html.ActionLink(@brand.Name, "ListAsync", MergeIn(query_values, new { brand = brand.Name, Id = Model.categoryId }))
-                </li>
+                    <li>
+                        @Html.ActionLink(@brand.Name, "ListAsync", msHelper.MergeIn(query_values, new { brand = brand.Name, Id = Model.categoryId }))
+                    </li>
                 }
             </ul>
         </div>
@@ -35,9 +26,9 @@
         <div class="panel-body fixed-panel">
             <ul>
                 @foreach (var size in Model.sizes) {
-                <li>
-                    @Html.ActionLink(@size.Name, "ListAsync", MergeIn(query_values, new { size = size.Name, Id = Model.categoryId }))
-                </li>
+                    <li>
+                        @Html.ActionLink(@size.Name, "ListAsync", msHelper.MergeIn(query_values, new { size = size.Name, Id = Model.categoryId }))
+                    </li>
                 }
             </ul>
         </div>
@@ -48,9 +39,9 @@
         <div class="panel-body fixed-panel">
             <ul>
                 @foreach (var gender in Model.genders) {
-                <li>
-                    @Html.ActionLink(@gender.Name, "ListAsync", MergeIn(query_values, new { size = gender.Name, Id = Model.categoryId }))
-                </li>
+                    <li>
+                        @Html.ActionLink(@gender.Name, "ListAsync", msHelper.MergeIn(query_values, new { size = gender.Name, Id = Model.categoryId }))
+                    </li>
                 }
             </ul>
         </div>

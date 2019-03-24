@@ -31,7 +31,8 @@ namespace Megastore.Controllers
         public ActionResult FilterNavigation(int? id) {
             var path = Request.Url.Scheme + "://" + Request.Url.Host;
             string queryString = new System.Uri(path).Query;
-            
+            var qs = Request.QueryString;
+
             FilterNavigation filterNavigation = new FilterNavigation();
             filterNavigation.queryDictionary = System.Web.HttpUtility.ParseQueryString(queryString);
             filterNavigation.categoryId = id;
