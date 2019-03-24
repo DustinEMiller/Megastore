@@ -46,8 +46,11 @@ namespace Megastore.Controllers
             return PartialView("~/Views/Category/_Filters.cshtml", filterNavigation);
         }
 
-        public async System.Threading.Tasks.Task<ActionResult> ListAsync(int? id, int? page)
+        public async System.Threading.Tasks.Task<ActionResult> ListAsync(int? id, int? page, string brand, string size, string gender)
         {
+            // TODO: Show current filters, ability to remove them
+            // TODO: Input validation for paramters
+            // TODO: Admin ability to change display name of filters, set filters shown, other filter configuration
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -59,15 +62,31 @@ namespace Megastore.Controllers
                 return HttpNotFound();
             }
 
+            // TODO: Look into using some sort of composition or factory for parameters
             FilterParameters filterParameter = new FilterParameters();
             if (page != null) {
                 filterParameter.page = (int)page;
             }
 
-            filterParameter.per_page = 18; //TODO: Make this a config item in admin or option in paging block
+            filterParameter.per_page = 18; // TODO: Make this a config item in admin or option in paging block
             filterParameter.filter = new Models.Filter();
             filterParameter.filter.categories = new List<object>();
             filterParameter.filter.categories.Add(category.Name);
+
+            if (brand != null) {
+                filterParameter.filter.brands = new List<object>();
+                filterParameter.filter.brands.Add(brand);
+            }
+
+            if (size != null) {
+                filterParameter.filter.sizes = new List<object>();
+                filterParameter.filter.sizes.Add(size);
+            }
+
+            if (gender != null) {
+                filterParameter.filter.genders = new List<object>();
+                filterParameter.filter.genders.Add(gender);
+            }
 
             using (HttpClient httpClient = new HttpClient()) {
                 var productApi = new ProductFetchController();

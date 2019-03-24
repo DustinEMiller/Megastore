@@ -27,6 +27,7 @@ namespace Megastore.Models
         public List<object> genders { get; set; }
         public List<object> site_ids { get; set; }
         public List<object> brands { get; set; }
+        public List<object> sizes { get; set; }
         public List<PriceRange> price_ranges { get; set; }
         public int intl_enabled { get; set; }
         public int approved { get; set; }
